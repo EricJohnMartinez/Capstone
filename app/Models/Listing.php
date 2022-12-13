@@ -22,6 +22,7 @@ class Listing extends Model
         ->orWhere('descript', 'like', '%'. request('search').'%')
         ->orWhere('tags', 'like', '%'. request('search').'%');
     }
+    
     }
 
     //relate to user

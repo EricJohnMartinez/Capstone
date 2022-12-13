@@ -13,25 +13,25 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('application_form', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()
+            ->onDelete('cascade');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role')->default('employer');
-            $table->rememberToken();
+            $table->string('resume')->nullable();
+            $table->string('contact_number');
+            $table->longText('email');
             $table->timestamps();
         });
     }
 
-    /**s
+    /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('application_form');
     }
 };

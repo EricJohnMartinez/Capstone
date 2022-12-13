@@ -32,10 +32,10 @@
                                   {{$listing->descript}}
 
                                 <a
-                                    href="{{$listing->email}}"
+                                    href="/listings/job_apply"
                                     class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
                                     ><i class="fa-solid fa-envelope"></i>
-                                    Contact Employer</a
+                                    Apply for the job</a
                                 >
 
                                 <a
@@ -49,16 +49,6 @@
                         </div>
                     </div>
                 </x-card>
-               {{-- <x-card class="mt-4 p-2 flex space-x-6">
-                    <a href="/list/{{$listing->id}}/edit">
-                    <i class="fa-solid fa-pencil"></i>Edit
-                    </a>
-                    <form method="POST" action="/list/{{$listing->id}}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>
-                        Delete</button>
-                    </form>
-                </x-card>--}}
+
             </div>
 </x-layout>

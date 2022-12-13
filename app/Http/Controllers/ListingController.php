@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Announcement;
 use App\Models\Listing;
+use GuzzleHttp\Middleware;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use PhpParser\Node\Expr\List_;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
 {
@@ -20,7 +22,6 @@ class ListingController extends Controller
     public function show(Listing $listing){
         return view ('listings.show',[
             'listing'=> $listing
-            
         ]);
     }
 
@@ -34,7 +35,6 @@ class ListingController extends Controller
             'company' => ['required',Rule::unique('listings',
             'company') ],
             'location' => 'required',
-
             'email' => ['required' ,'email'],
             'tags' => 'required',
             'descript' => 'required'
@@ -45,6 +45,9 @@ $formFields['logo']= $request->file('logo')
         }
         $formFields['user_id']= auth()->id();
         Listing::create($formFields);
+        if(Auth::user()->role =='admin'){
+        return redirect('/admin/admin_job')->with('message', "Job has been posted");
+        }
         return redirect('/')->with('message', "Job has been posted");
     }
    
@@ -69,34 +72,45 @@ $formFields['logo']= $request->file('logo')
 
     public function update(Request $request, Listing $listing){
 
-        if($listing->user_id != auth()->id()){
-            abort(403,'Unauthorized Action');
+        if($listing->user_id == auth()->id()||Auth::user()->role =='admin'){
+            $formFields = $request->validate([
+                'title'=> 'required',
+                'company' => ['required'],
+                'location' => 'required',
+                'email' => ['required' ,'email'],
+                'tags' => 'required',
+                'descript' => 'required'
+            ]);
+            if($request->hasFile('logo')){
+                $formFields['logo']= $request->file('logo')
+                ->store('logos','public');
+                }
+                $listing->update($formFields);
+                if(Auth::user()->role =='admin'){
+                return redirect('/admin/admin_job')->with('message', "Job Updated");
+                }
+                return back()->with('message', "Job Updated");
+          //abort(403,'Unauthorized Action');
         }
+        abort(403,'Unauthorized Action');
+      
 
-        $formFields = $request->validate([
-            'title'=> 'required',
-            'company' => ['required'],
-            'location' => 'required',
-            'website' => 'required',
-            'email' => ['required' ,'email'],
-            'tags' => 'required',
-            'descript' => 'required'
-        ]);
-        if($request->hasFile('logo')){
-        $formFields['logo']= $request->file('logo')
-        ->store('logos','public');
-        }
-        $listing->update($formFields);
-        return back()->with('message', "Job Updated");
     }
 
     public function destroy(Listing $listing){
-        if($listing->user_id != auth()->id()){
-            abort(403,'Unauthorized Action');
+        if($listing->user_id == auth()->id()||Auth::user()->role =='admin'){
+            $listing->delete();
+            if(Auth::user()->role =='admin'){
+            return redirect('/admin/admin_job')->with('message', "Job listed has been deleted successfully");
+            }
+            return redirect('/')->with('message', "Job listed has been deleted successfully");
         }
-        $listing->delete();
-        return redirect('/')->with('message', "Job listed has been deleted successfully");
+        else
+        abort(403,'Unauthorized Action');
     }
+    //Auth::user()->role =='admin'
+
+  
 
     //manage listings
 
@@ -112,7 +126,6 @@ public function create_announcement() {
 }
 
 //create announcement
-
 public function store_announcement(Request $request){
     $formFields = $request->validate([
         'title'=> 'required',
@@ -125,9 +138,13 @@ $formFields['media']= $request->file('media')
     }
     $formFields['user_id']= auth()->id();
     Announcement::create($formFields);
-    return redirect('/')->with('message', "Announcement has been posted");
+    return redirect('/admin/admin_announcement')->with('message', "Announcement has been posted");
 }
 
+//show job application form
+public function job_apply() {
+    return view('listings.job_apply');
+}
 
 }
 

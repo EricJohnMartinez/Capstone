@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,15 +36,13 @@ Route::get('/listings/calendar',
 [ListingController::class,'calendar']
 );
 
-//create annoucement form
-Route::get('/listings/create_announcement',
-[ListingController::class,'create_announcement']
-);
 
-// store create announcement
-Route::post('/announcement',
-[ListingController::class,'store_announcement']
+
+//create Application form
+Route::get('/listings/job_apply',
+[ListingController::class,'job_apply']
 )->middleware('auth');
+
 
 
 //feed
@@ -94,8 +93,49 @@ Route::post('/logout',
 //show login
 Route::get('/login',
 [UserController::class,'login'])->name('login')->middleware('guest');
+//show login Alumni
+Route::get('/Alumni_login',
+[UserController::class,'Alumni_login'])->name('Alumni_login')->middleware('guest');
 
-//login
+//login Alumni
+Route::post('/users/authenticate_Alumni',
+[UserController::class,'authenticate_Alumni']);
+//logins
 Route::post('/users/authenticate',
 [UserController::class,'authenticate']);
+
+    //create annoucement form
+    Route::get('/listings/create_announcement',[ListingController::class,'create_announcement']);
+    Route::post('/announcements',[ListingController::class,'store_announcement']);
+
+//login as Admin
+Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
+    Route::get('/adminpage',[AdminController::class,'adminpage'])->name('admin.adminpage');
+    //Admin show Jobs
+    Route::get('/admin_job',[AdminController::class,'admin_job'])->name('admin.admin_job');
+    //Admin show job form
+    Route::get('/admin_job_create',[AdminController::class,'admin_job_create'])->name('admin.admin_job_create');
+    //Admin store job form
+    Route::get('/admin_job_create_store',[AdminController::class,'admin_job_create_store'])->name('admin.admin_job_create_store');
+    //Admin manage job
+    Route::get('/admin_job_manage',[AdminController::class,'admin_job_manage'])->name('admin.admin_job_manage');
+    Route::delete('/list/{listing}',[AdminController::class,'admin_destroy']);
+    Route::put('/list/{listing}',[AdminController::class,'update']);
+    //Admin Account
+    Route::get('/admin_account',[AdminController::class,'admin_account'])->name('admin.admin_account');
+    //Admin Account Create
+    Route::get('/admin_account_create',[AdminController::class,'admin_account_create'])->name('admin.admin_account_create');
+    Route::post('/users',[AdminController::class,'store']);
+    //Admin manage job
+    Route::get('/admin_account_manage',[AdminController::class,'admin_account_manage'])->name('admin.admin_account_manage');
+    Route::delete('/list/{listing}',[AdminController::class,'admin_destroy']);
+    // Admin announcement
+    Route::get('/admin_announcement',[AdminController::class,'admin_announcement'])->name('admin.admin_announcemet');
+ 
+
+});
+
+
+
+
 
