@@ -133,6 +133,7 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
         </div>
     </div>
   </form>
+  
   <div
     class="lg:grid lg:grid-cols-1 gap-4 space-y-4 md:space-y-0 mx-4">
     @unless (count($list)==0)
@@ -143,6 +144,7 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
     <p> No List Found</p>
     @endunless
 </div>
+
 <div class="mt-6 p-4">
     {{$list->links()}}
 </div>

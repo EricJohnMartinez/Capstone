@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use GuzzleHttp\Middleware;
 use App\Models\Announcement;
+use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\List_;
 use Illuminate\Validation\Rule;
@@ -58,6 +59,8 @@ $formFields['logo']= $request->file('logo')
     public function feed() {
         return view('listings.feed');
     }
+
+ 
 
     public function job() {
         return view('listings.job', [
@@ -141,10 +144,16 @@ $formFields['media']= $request->file('media')
     return redirect('/admin/admin_announcement')->with('message', "Announcement has been posted");
 }
 
+
+
+
+
 //show job application form
 public function job_apply() {
     return view('listings.job_apply');
 }
 
+
 }
+
 

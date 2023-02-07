@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,19 +38,12 @@ Route::get('/listings/calendar',
 [ListingController::class,'calendar']
 );
 
-
-
 //create Application form
 Route::get('/listings/job_apply',
 [ListingController::class,'job_apply']
 )->middleware('auth');
 
 
-
-//feed
-Route::get('/listings/feed',
-[ListingController::class,'feed']
-);
 
 //job
 Route::get('/listings/job',
@@ -93,6 +88,7 @@ Route::post('/logout',
 //show login
 Route::get('/login',
 [UserController::class,'login'])->name('login')->middleware('guest');
+
 //show login Alumni
 Route::get('/Alumni_login',
 [UserController::class,'Alumni_login'])->name('Alumni_login')->middleware('guest');
@@ -100,6 +96,7 @@ Route::get('/Alumni_login',
 //login Alumni
 Route::post('/users/authenticate_Alumni',
 [UserController::class,'authenticate_Alumni']);
+
 //logins
 Route::post('/users/authenticate',
 [UserController::class,'authenticate']);
@@ -130,12 +127,21 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     Route::get('/admin_account_manage',[AdminController::class,'admin_account_manage'])->name('admin.admin_account_manage');
     Route::delete('/list/{listing}',[AdminController::class,'admin_destroy']);
     // Admin announcement
-    Route::get('/admin_announcement',[AdminController::class,'admin_announcement'])->name('admin.admin_announcemet');
- 
-
+    Route::get('/admin_announcement',[AdminController::class,'admin_announcement'])->name('admin.admin_announcement');
 });
 
+Route::post('/social',
+[SocialController::class,'store_post'])->middleware('auth');
 
+// Alumni keme
+Route::prefix('listings')->middleware(['auth','isnotEmployer'])->group(function(){
+//create Application form
+Route::get('/job_apply',[ListingController::class,'job_apply'])->name('listings.job_apply');
+//Alumni Feed
+Route::get('/feed',[ListingController::class,'feed'])->name('listings.feed');
+Route::get('/feed_post',
+[SocialController::class,'post']);
 
+});
 
 
