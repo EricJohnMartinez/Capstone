@@ -16,10 +16,10 @@ class UserController extends Controller
 
     //Create user
     public function store(Request $request){
-
+       
         $formFields = $request->validate([
             'name' =>['required', 'min:3'],
-            'email' =>['required_unless:role,admin','email',Rule::unique('users','email')],
+            'email' =>['required','email',Rule::unique('users','email')],
             'password'=>'required|confirmed|min:6']);
         //Hash password
         $formFields['password'] = bcrypt($formFields['password']);

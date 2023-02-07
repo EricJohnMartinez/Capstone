@@ -35,6 +35,13 @@
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
+                @if (Auth::user()->role =='admin')
+                <li>
+                    <a href="/admin/adminpage" class="hover:text-laravel"
+                        ><i class="fa-solid fa-eye"></i> Admin View</a
+                    >
+                </li>
+                @endif
                 <li>
                     <span class="font-bold uppercase">
                         Welcome {{auth()->user()->name}}
@@ -53,9 +60,7 @@
                     </button>
                     </form>
                 </li>
-
                 @else
-
                 <li>
                     <a href="/register" class="hover:text-laravel"
                         ><i class="fa-solid fa-user-plus"></i> Register</a

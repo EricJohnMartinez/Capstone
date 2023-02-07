@@ -25,34 +25,16 @@
           <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 rounded-full ml-4">Logout</a>
         </div>
       </nav>
-{{--post--}}
-      
 
-          <div class="w-96 mx-auto my-4 p-4 bg-white rounded-lg shadow-lg">
-          <button
-          class="bg-gray-300 text-gray-700 rounded-full px-3 py-2 mt-4"> <a href="/listings/feed_post">Add a Post</a> </button>
-        </div>
-
-    
-      {{--card--}}
-      <div class="w-96 mx-auto my-4 p-4 bg-white rounded-lg shadow-lg">
-       
-        @unless (count($social_media) == 0)
-        @foreach ($social_media as $social )
-        <img src="image.png" alt="Image" class="w-full h-64 object-cover rounded-t-lg">
+      <form method="POST" action="/social" enctype="multipart/form-data" class="w-128 mx-auto my-4 p-4 bg-white rounded-lg shadow-lg">
+       @csrf
         <div class="px-4 py-4">
-  
-          <p class="text-xs text-gray-700 mt-2"> {{$social->post}}</p>
+          <textarea class="bg-gray-300 text-gray-700 rounded-full px-3 py-2 w-full" placeholder="What's on your mind?" name="post"></textarea>
+          <input type="file" class="bg-gray-300 text-gray-700 rounded-full px-3 py-2 mt-4" name="media">
         </div>
         <div class="px-4 py-2">
-          <button class="bg-gray-300 text-gray-700 rounded-full px-3 py-2">Like</button>
-          <input type="text" class="bg-gray-300 text-gray-700 rounded-full px-3 py-2 ml-4" placeholder="Type a comment...">
+          <button class="bg-gray-300 text-gray-700 rounded-full px-3 py-2">Post</button>
         </div>
-        @endforeach
-        @else
-        <p>No eMe</p>
-        @endunless
-      </div>
-     
+      </form>
+      
 </body>
-</html>

@@ -37,6 +37,13 @@
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
+                @if (Auth::user()->role =='admin')
+                <li>
+                    <a href="/" class="hover:text-laravel"
+                        ><i class="fa-solid fa-eye"></i> Guest View</a
+                    >
+                </li>
+                @endif
                 <li>
                     <span class="font-bold uppercase">
                         Welcome Admin {{auth()->user()->name}}
@@ -47,7 +54,6 @@
                     @csrf
                     <button type="submit" class="hover:text-laravel">
                         <i class="fa-solid fa-door-open"></i>Logout
-
                     </button>
                     </form>
                 </li>
@@ -78,7 +84,8 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
 ></div>
 
 <div class="z-10">
-    <h1 class="text-6xl font-bold text-white">
+    
+    <h1 class="text-6xl font-bold text-white ">
         MinSU - Admin
     </h1>
     <p class="text-2xl text-gray-200 font-bold my-4">

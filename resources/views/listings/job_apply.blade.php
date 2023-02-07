@@ -59,8 +59,6 @@
                                 @enderror
                             </div>
                             
-
-                           
                            <div class="mb-6">
                                 <label for="media" class="inline-block text-lg mb-2">
                                     Insert File
@@ -83,6 +81,7 @@
                                 </button>
                                 <a href="/" class="text-black ml-4"> Back </a>
                             </div>
+                            
                         </form>
     </x-card>
     </x-layout>

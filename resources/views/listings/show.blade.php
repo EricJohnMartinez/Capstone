@@ -1,5 +1,4 @@
 <x-layout>
-
 <a href="/listings/job" class="inline-block text-black ml-4 mb-4"
                 ><i class="fa-solid fa-arrow-left"></i> Back
             </a>
@@ -30,14 +29,15 @@
                             <div class="text-lg space-y-6">
                             
                                   {{$listing->descript}}
-
+                                  @auth
+                             
                                 <a
                                     href="/listings/job_apply"
                                     class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
                                     ><i class="fa-solid fa-envelope"></i>
                                     Apply for the job</a
                                 >
-
+                           
                                 <a
                                     href="{{$listing->website}}"
                                     target="_blank"
@@ -45,10 +45,26 @@
                                     ><i class="fa-solid fa-globe"></i> Visit
                                     Website @ {{$listing->website}}</a
                                 >
+                                @else
+                                <a
+                                href="/listings/job_apply"
+                                class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
+                                ><i class="fa-solid fa-envelope"></i>
+                                Apply for the job</a
+                            >
+                            <a
+                                href="{{$listing->website}}"
+                                target="_blank"
+                                class="block bg-black text-white py-2 rounded-xl hover:opacity-80"
+                                ><i class="fa-solid fa-globe"></i> Visit
+                                Website @ {{$listing->website}}</a
+                            >
+                                @endauth
                             </div>
                         </div>
                     </div>
                 </x-card>
 
             </div>
+     
 </x-layout>

@@ -38,7 +38,7 @@
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                 <li>
-                    <span class="font-bold uppercase">
+                    <span class="font-bold uppercase ">
                         Welcome Admin {{auth()->user()->name}}
                     </span>
                 </li>

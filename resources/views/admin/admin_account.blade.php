@@ -78,6 +78,7 @@ class="relative h-72 bg-laravel flex flex-col justify-center align-center text-c
 ></div>
 
 <div class="z-10">
+    <i class="fa-solid fa-user-group text-6xl font-bold text-white"></i>
     <h1 class="text-6xl font-bold text-white">
         MinSU - Admin
     </h1>
